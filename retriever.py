@@ -8,5 +8,5 @@ class Retriever():
 
     def get_context(self, query:str) -> list[Document]:
         retriever = self.vectordb.as_retriever(search_kwargs={'k':2})
-        docs = retriever.get_relevant_documents(query)
+        docs = retriever.invoke(query)
         return docs
