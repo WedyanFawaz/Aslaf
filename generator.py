@@ -30,6 +30,6 @@ class Generator:
         return model
 
 
-    def generate_response(self, prompt:str) -> str: 
+    def get_response(self, prompt:str) -> str: 
         return self.model.generate(prompt)['results'][0]['generated_text']
 
