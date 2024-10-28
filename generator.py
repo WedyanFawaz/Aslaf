@@ -31,5 +31,5 @@ class Generator:
 
 
     def generate_response(self, prompt:str) -> str: 
-        return self.model.generate(prompt)['results'] #[0]['generated_text']
+        return self.model.generate(prompt)['results'][0]['generated_text']
 
