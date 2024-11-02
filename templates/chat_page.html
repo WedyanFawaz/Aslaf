@@ -48,8 +48,8 @@
                 const str_time = hour + ":" + minute;
                 const rawText = $("#text").val();
 
-                const userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">' + str_time + '</span></div><div class="img_cont_msg"><img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg"></div></div>';
-                $("#messageFormeight").append(userHtml);
+                const profileImageUrl = "{{ url_for('static', filename='Logo/profile.jpg') }}";
+               const userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">' + str_time + '</span></div><div class="img_cont_msg"><img src="' + profileImageUrl + '" class="rounded-circle user_img_msg"></div></div>';                $("#messageFormeight").append(userHtml);
 
                 $("#text").val('');
 
