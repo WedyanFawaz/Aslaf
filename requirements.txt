@@ -5,6 +5,4 @@ ipywidgets
 gunicorn
 ibm_watsonx_ai
 langchain_community
-generator
-retriever
 langchain
