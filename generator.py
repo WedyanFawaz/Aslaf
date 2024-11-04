@@ -1,7 +1,7 @@
 from ibm_watsonx_ai import APIClient
 from ibm_watsonx_ai import Credentials
 from ibm_watsonx_ai.foundation_models import Model
-from config import (IBM_API_KEY, IBM_PROJECT_ID)
+#from config import (IBM_API_KEY, IBM_PROJECT_ID)
 
 
 
