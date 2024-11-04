@@ -5,3 +5,7 @@ ipywidgets
 gunicorn
 ibm_watsonx_ai
 langchain_community
+shutil
+os
+generator
+retriever
