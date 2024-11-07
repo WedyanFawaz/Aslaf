@@ -88,12 +88,15 @@ button:hover {
     padding-top: 50px;
 }
 
+/* General Styling */
 .scientists {
     display: flex;
     justify-content: space-around;
     margin: 50px 0;
+    flex-wrap: wrap; /* Allow scholars to wrap when screen is small */
 }
 
+/* Scholar Card Styling */
 .scholar {
     border-radius: 50px;
     width: 320px;
@@ -103,7 +106,9 @@ button:hover {
     align-items: flex-end; /* Align items to the right */
     border: 3px solid #6F5EBC;
     position: relative; /* Ensure button stays inside */
+    margin: 10px; /* Added space between cards */
 }
+
 .gray {
     filter: grayscale(100%);
 }
@@ -123,16 +128,13 @@ button:hover {
     font-size: 2rem;
 }
 
- .scholar p {
-    padding-inline-end: 10px;
-    margin: 0;
+.scholar p {
     font-size: 1rem;
 }
 
 .third-scholar h3 {
   color: #60A9C0;
 }
-
 
 .scholar p.hashtags {
     color: #B5BC88;
@@ -141,12 +143,58 @@ button:hover {
 /* Special coloring for the first two cards */
 .first-scholar h3, .first-scholar p.hashtags, .second-scholar h3, .second-scholar p.hashtags {
     color: gray;
-    
 }
-.first-scholar, .second-scholar{
+
+.first-scholar, .second-scholar {
     border: 3px solid #C5C7CF;
 }
 
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .scientists {
+        justify-content: space-between;
+    }
+    .scholar {
+        width: 280px; /* Slightly reduce size for medium screens */
+    }
+}
+
+@media (max-width: 992px) {
+    .scholar {
+        width: 220px; /* Smaller size for smaller screens */
+        height: 350px; /* Adjust height for smaller screens */
+    }
+    .scholar h3 {
+        font-size: 1.8rem; /* Adjust text size */
+    }
+    .scholar p {
+        font-size: 0.9rem; /* Adjust text size */
+    }
+}
+
+@media (max-width: 768px) {
+    .scientists {
+        flex-direction: column; /* Stack cards vertically */
+        align-items: center; /* Center align cards */
+    }
+    .scholar {
+        width: 90%; /* Take full width on small screens */
+        height: auto; /* Let the height adjust automatically */
+    }
+}
+
+@media (max-width: 480px) {
+    .scholar {
+        width: 100%; /* Full width on very small screens */
+        height: auto; /* Adjust height automatically */
+    }
+    .scholar h3 {
+        font-size: 1.5rem; /* Further reduce text size */
+    }
+    .scholar p {
+        font-size: 0.8rem; /* Further reduce text size */
+    }
+}
 
 
 /* Coming Soon Text */
@@ -190,4 +238,67 @@ button:hover {
     margin-top: 50px;
     align-self: center;
     align-items: center;
+}
+/* Style for the "What do you want to learn?" section */
+#learning-section {
+    text-align: right; /* Aligns content to the right */
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f7f7f700;
+    /* border: none !important; */
+    border-radius: 8px;
+    direction: rtl; /* Ensures right-to-left flow for Arabic text */
+}
+
+#learning-section h2 {
+    font-size: 30px;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+/* Consistent height for input and button */
+#learning-input,
+#send-button {
+    height: 50px; /* Set a consistent height */
+    padding: 0 12px; /* Adjust padding to ensure text is centered vertically */
+    font-size: 16px;
+}
+
+/* Input Styling */
+#learning-input {
+    width: 80%;
+    max-width: 600px;
+    color: #ffffff;
+    background-color: #15171F;
+    border: 2px solid #6F5EBC;
+    border-radius: 16px;
+    text-align: right; /* Aligns text inside the input field to the right */
+}
+
+#learning-input::placeholder {
+    color: #aaa;
+    text-align: right; /* Aligns placeholder text to the right */
+}
+
+#learning-input:focus {
+    border-color: #60ACC0;
+    outline: none;
+}
+
+/* Button Styling */
+#send-button {
+    border: 1px solid transparent;
+    border-radius: 16px;
+    background: linear-gradient(to right, #60ACC0, #6F5EBC);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    color: #fff;
+    font-size: 16px; /* Ensure font size matches input */
+    cursor: pointer; /* Add cursor for interaction */
+    z-index: 1;
+}
+
+
+#send-button:hover {
+    background-color: #5d4db4; /* Darker shade for hover */
 }

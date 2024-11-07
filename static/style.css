@@ -1,124 +1,147 @@
-body,html{
-	height: 100%;
-	margin: 0;
-	background: rgb(44, 47, 59);
-   background: -webkit-linear-gradient(to right, rgb(40, 59, 34), rgb(54, 60, 70), rgb(32, 32, 43));
-	background: linear-gradient(to right, rgb(38, 51, 61), rgb(50, 55, 65), #21214e);
+/* Body and Background Styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    background: rgb(44, 47, 59);
+    background: -webkit-linear-gradient(to right, rgb(40, 59, 34), rgb(54, 60, 70), rgb(32, 32, 43));
+    background: linear-gradient(to right, rgb(38, 51, 61), rgb(50, 55, 65), #21214e);
+    display: flex;
+    flex-direction: column;
 }
 
-/* .chat{
-	height: 100%;
-	margin-top: 100px;
-	margin-bottom: auto;
-	align-self: center;
-} */
-.card{
-	padding-left: 300px ;
-	padding-right: 300px ;
-	text-align: right;
-	height: 100%;
-	width: 100%;
-	margin: 10px;
-	border: none !important;
-	border-radius: 15px !important;
-	background-color: rgba(0, 0, 0, 0) !important;
-	
+/* Card Styling */
+.card {
+    display: flex;
+    flex-direction: column;
+    padding-left: 300px;
+    padding-right: 300px;
+    text-align: right;
+    height: 100%;
+    width: 100%;
+    margin: 10px;
+    border: none !important;
+    border-radius: 15px !important;
+    background-color: rgba(0, 0, 0, 0) !important;
 }
-.contacts_body{
-	padding:  0.75rem 0 !important;
-	overflow-y: auto;
-	white-space: nowrap;
+
+/* Contacts Body Styling */
+.contacts_body {
+    padding: 0.75rem 0 !important;
+    overflow-y: auto;
+    white-space: nowrap;
+    flex: 1; /* This ensures the body content expands to take up available space */
 }
-.msg_card_body{
-	overflow-y: auto;
+
+.msg_card_body {
+    overflow-y: auto;
 }
+
+/* Header and Footer */
 .card-header {
-    display: flex; /* Ensure it's a flex container */
-    justify-content: flex-end; /* Align all elements to the right */
-    align-items: center; /* Vertically align the items in the center */
-    text-align: right; /* Align text within the elements to the right */
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    text-align: right;
     border-radius: 15px 15px 0 0 !important;
     border-bottom: 0 !important;
-	background-color:#40405000 !important;
-	border: none !important;
+    background-color: #40405000 !important;
+    border: none !important;
+}
+/* Style for the 'عودة' button */
+.return-btn {
+    position: absolute; /* Positions it relative to the closest positioned ancestor */
+    left: 10px; /* 10px from the left of the screen */
+    top: 10px; /* 10px from the top of the screen */
+    color: white !important; /* Makes the text white */
+    background: transparent; /* Transparent background */
+    border: none; /* Removes any default border */
+    font-size: 16px; /* Adjust font size as needed */
+	padding-left: 300px;
 }
 
-.card-footer{
-border-radius: 15px 15px 15px 15px !important;
-	border-top: 0 !important;
+
+.card-footer {
+    border-radius: 15px !important;
+    border-top: 0 !important;
+    margin-top: auto; /* Pushes the footer to the bottom */
 }
 
-
-
-.type_msg{
-	background-color: rgba(0,0,0,0.3) !important;
-	border: 15px !important;
-	color:white !important;
-	height: 60px !important;
-	overflow-y: auto;
-	border-radius: 15px 0 0 15px !important;
-}
-	.type_msg:focus{
-	 box-shadow:none !important;
-   outline:0px !important;
-   border: 50px;
+/* Message Typing Area */
+.type_msg {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    color: white !important;
+    height: 60px !important;
+    overflow-y: auto;
+    border-radius: 15px 0 0 15px !important;
 }
 
-.send_btn{
-	border-radius: 0 15px 15px 0 !important;
-	background-color: rgba(0,0,0,0.3) !important;
-	border:0 !important;
-	color: white !important;
-	cursor: pointer;
-	
-}
-.contacts{
-	list-style: none;
-	padding: 0;
-}
-.contacts li{
-	width: 100% !important;
-	padding: 5px 10px;
-	margin-bottom: 15px !important;
-}
-.active{
-	background-color: rgba(0,0,0,0.3);
-}
-.user_img{
-	text-align: right;
-	height: 70px;
-	width: 70px;
-	border:1.5px solid #f5f6fa;
-
-}
-.user_img_msg{
-	text-align: right;
-	height: 40px;
-	width: 40px;
-	border:1.5px solid #f5f6fa;
-
-}
-.img_cont{
-	text-align: right;
-	position: relative;
-	height: 70px;
-	width: 70px;
-}
-.img_cont_msg{
-	height: 40px;
-	width: 40px;
-}
-.online_icon{
-	position: absolute;
-	height: 15px;
-	width:15px;
-	background-color: #4cd137;
-	border-radius: 50%;
-	bottom: 0.2em;
-	right: 0.4em;
-	border:1.5px solid white;
+.type_msg:focus {
+    box-shadow: none !important;
+    outline: 0px !important;
 }
 
+/* Send Button */
+.send_btn {
+    border-radius: 0 15px 15px 0 !important;
+    background-color: rgba(0, 0, 0, 0.3) !important;
+    border: 0 !important;
+    color: white !important;
+    cursor: pointer;
+}
+
+/* Contacts List */
+.contacts {
+    list-style: none;
+    padding: 0;
+}
+
+.contacts li {
+    width: 100% !important;
+    padding: 5px 10px;
+    margin-bottom: 15px !important;
+}
+
+.active {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* User Images */
+.user_img {
+    height: 70px;
+    width: 70px;
+    border: 1.5px solid #f5f6fa;
+}
+
+.user_img_msg {
+    height: 40px;
+    width: 40px;
+    border: 1.5px solid #f5f6fa;
+}
+
+.img_cont {
+    position: relative;
+    height: 70px;
+    width: 70px;
+    text-align: right;
+}
+
+.img_cont_msg {
+    height: 40px;
+    width: 40px;
+}
+
+.online_icon {
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    background-color: #4cd137;
+    border-radius: 50%;
+    bottom: 0.2em;
+    right: 0.4em;
+    border: 1.5px solid white;
+}
+
+/* User Info */
 .user_info {
     text-align: right;
     margin-top: auto;
@@ -127,57 +150,84 @@ border-radius: 15px 15px 15px 15px !important;
 }
 
 .user_info span {
-    padding-right: 10px; /* Corrected '10x' to '10px' */
+    padding-right: 10px;
     font-size: 20px;
     color: white;
 }
 
 .user_info p {
-    padding-right: 10px; /* Corrected '10x' to '10px' */
+    padding-right: 10px;
     font-size: 10px;
     color: rgba(255, 255, 255, 0.6);
 }
 
-.msg_cotainer{
-	margin-top: auto;
-	margin-bottom: auto;
-	margin-left: 10px;
-	border-radius: 25px;
-	background-color: rgb(156, 207, 255);
-	padding: 10px;
-	position: relative;
-	width: 50%;
-}
-.msg_cotainer_send{
-	margin-top: auto;
-	margin-bottom: auto;
-	margin-right: 10px;
-	border-radius: 25px;
-	background-color: #8ccfa3;
-	padding: 10px;
-	position: relative;
-
-}
-.msg_time{
-	position: absolute;
-	left: 0;
-	bottom: -15px;
-	color: rgba(255,255,255,0.5);
-	font-size: 10px;
-}
-.msg_time_send{
-	position: absolute;
-	right:0;
-	bottom: -15px;
-	color: rgba(255,255,255,0.5);
-	font-size: 10px;
-}
-.msg_head{
-	position: relative;
+/* Message Container */
+.msg_cotainer {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 10px;
+    border-radius: 25px;
+    background-color: rgb(156, 207, 255);
+    padding: 10px;
+    position: relative;
+    width: 50%;
 }
 
-@media(max-width: 576px){
-	.contacts_card{
-	margin-bottom: 15px !important;
+.msg_cotainer_send {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 10px;
+    border-radius: 25px;
+    background-color: #8ccfa3;
+    padding: 10px;
+    position: relative;
 }
+
+/* Message Time */
+.msg_time {
+    position: absolute;
+    left: 0;
+    bottom: -15px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 10px;
+}
+
+.msg_time_send {
+    position: absolute;
+    right: 0;
+    bottom: -15px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 10px;
+}
+
+/* Button to Simplify Messages */
+.simplifyBtn {
+    background-color: #dbbdfc00;
+    color: rgb(255, 255, 255);
+    border: 2px solid #6F5EBC;
+    border-radius: 16px;
+    padding: 10px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.simplifyBtn:focus {
+    outline: none;
+}
+
+.simplifyBtn:active {
+    background-color: #6F5EBC;
+}
+
+/* Center and Spacing for Simplify Button */
+.text-center {
+    padding-bottom: 20px;
+}
+
+/* Responsive Styling */
+@media (max-width: 576px) {
+    .contacts_card {
+        margin-bottom: 15px !important;
+    }
 }

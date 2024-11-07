@@ -21,15 +21,18 @@
                     <span>ابن جني</span>
                     <p>اسألني أي شيء لتزيد من معرفتك</p>
                 </div>
+                <div class="ml-3">
+                    <button onclick="window.history.back()" class="return-btn">عودة</button>
+                </div>
             </div>
         </div>
-
-        <div id="messageFormeight" class="card-body msg_card_body"></div>
-
+        <div class="column">
+            <div id="messageFormeight" class="card-body msg_card_body"></div>
+        </div>
         <div class="card-footer">
             <form id="messageArea" class="input-group">
-                <input type="text" id="text" name="msg" placeholder="اكتب رسالتك" autocomplete="off" class="form-control type_msg" required style="text-align: right;" />
-
+                <input type="text" id="text" name="msg" placeholder="اكتب رسالتك" autocomplete="off"
+                    class="form-control type_msg" required style="text-align: right;" />
                 <div class="input-group-append">
                     <button type="submit" id="send" class="input-group-text send_btn">
                         <i class="fas fa-location-arrow"></i>
@@ -41,6 +44,8 @@
 
     <script>
         $(document).ready(function () {
+            let responseCount = 0;
+
             $("#messageArea").on("submit", function (event) {
                 const date = new Date();
                 const hour = date.getHours();
@@ -49,7 +54,8 @@
                 const rawText = $("#text").val();
 
                 const profileImageUrl = "{{ url_for('static', filename='Logo/profile.jpg') }}";
-               const userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">' + str_time + '</span></div><div class="img_cont_msg"><img src="' + profileImageUrl + '" class="rounded-circle user_img_msg"></div></div>';                $("#messageFormeight").append(userHtml);
+                const userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">' + str_time + '</span></div><div class="img_cont_msg"><img src="' + profileImageUrl + '" class="rounded-circle user_img_msg"></div></div>';
+                $("#messageFormeight").append(userHtml);
 
                 $("#text").val('');
 
@@ -58,11 +64,34 @@
                     type: "POST",
                     url: "/get"
                 }).done(function (data) {
-                    const botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="{{ url_for("static", filename="Logo/gni.png") }}" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' + data + '<span class="msg_time">' + str_time + '</span></div></div>';
-                    $("#messageFormeight").append($.parseHTML(botHtml));
+                    responseCount++;
+                    const botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="{{ url_for("static", filename="Logo/gni.png") }}" class="rounded-circle user_img_msg"></div><div class="msg_cotainer" id="response-' + responseCount + '">' + data + '<span class="msg_time">' + str_time + '</span></div></div>';
+                    const simplifyBtnHtml = '<div class="text-center mt-2"><button class="simplifyBtn" data-response-id="' + responseCount + '">بسطها</button></div>';
+                    $("#messageFormeight").append($.parseHTML(botHtml + simplifyBtnHtml));
                 });
 
                 event.preventDefault();
+            });
+
+            $(document).on("click", ".simplifyBtn", function () {
+                const date = new Date();
+                const hour = date.getHours();
+                const minute = date.getMinutes();
+                const str_time = hour + ":" + minute;
+                const rawText = $("#text").val();
+                const responseId = $(this).data("response-id");
+                const originalResponse = $(`#response-${responseId}`).text();
+
+                $.ajax({
+                    data: { msg: rawText },
+                    type: "POST",
+                    url: "/get"
+                }).done(function (data) {
+                    responseCount++;
+                    const botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="{{ url_for("static", filename="Logo/gni.png") }}" class="rounded-circle user_img_msg"></div><div class="msg_cotainer" id="response-' + responseCount + '">' + data + '<span class="msg_time">' + str_time + '</span></div></div>';
+                    const simplifyBtnHtml = '<div class="text-center" style="margin-top: 20px;"><button class="simplifyBtn" data-response-id="' + responseCount + '">بسطها</button></div>';
+                    $("#messageFormeight").append($.parseHTML(botHtml));
+                });
             });
         });
     </script>

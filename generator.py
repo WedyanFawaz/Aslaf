@@ -1,7 +1,8 @@
 from ibm_watsonx_ai import APIClient
 from ibm_watsonx_ai import Credentials
 from ibm_watsonx_ai.foundation_models import Model
-#from config import (IBM_API_KEY, IBM_PROJECT_ID)
+from config import (IBM_API_KEY, IBM_PROJECT_ID)
+from prompt_template import  explain_tempalte
 
 
 
@@ -32,4 +33,8 @@ class Generator:
 
     def get_response(self, prompt:str) -> str: 
         return self.model.generate(prompt)['results'][0]['generated_text']
-
+    
+    def get_explanation(self, response:str) -> str:
+        explaination =  explain_tempalte.format(response = response)
+        print(explaination)
+        return self.model.generate( explaination)['results'][0]['generated_text']
