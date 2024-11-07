@@ -21,6 +21,7 @@ def chat():
     msg = request.form["msg"]  # Get user input from the form
     return get_chat_response(msg)
 
+
 @app.route("/simplify", methods=["POST"])
 def simplify_response():
     original_response = request.form["response"]
