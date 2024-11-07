@@ -191,3 +191,43 @@ button:hover {
     align-self: center;
     align-items: center;
 }
+/* Style for the "What do you want to learn?" section */
+#learning-section {
+    text-align: right; /* Aligns content to the right */
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f7f7f700;
+    border: none !important;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    direction: rtl; /* Ensures right-to-left flow for Arabic text */
+}
+
+#learning-section h2 {
+    font-size: 30px;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+#learning-input {
+    width: 80%;
+    max-width: 600px;
+    padding: 12px;
+    font-size: 16px;
+    color: #333;
+    border: 1px solid #ffffff83;
+    border-radius: 16px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: right; /* Aligns text inside the input field to the right */
+}
+
+#learning-input::placeholder {
+    color: #aaa;
+    text-align: right; /* Aligns placeholder text to the right */
+}
+
+#learning-input:focus {
+    border-color: #007acc;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 122, 204, 0.2);
+}
