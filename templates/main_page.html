@@ -19,7 +19,7 @@
       <div class="hero">
         <h1>تعلم  <span id="dynamic-text" class="highlight"></span><br> على يد علماء العصر الذهبي</h1>
           <div class="buttons">
-            <button class="more-button" onclick="scrollToSection('bottom')">المزيد</button>
+            <button class="more-button" onclick="scrollToSection('scientists')">المزيد</button>
             <button class="try-button" onclick="scrollToSection('scientists')">جرب الآن</button>
           </div>
       </div>
@@ -35,7 +35,6 @@
           <input type="text" id="learning-input" placeholder="اكتب هنا...">
           <button id="send-button" onclick="sendMessage()">إرسال</button>
         </div>
-        <!-- Message display area -->
         <div id="message-display" class="message-display"></div>
       </section>
       <section id="scientists" class="scientists">
@@ -65,6 +64,14 @@
   </main>
 
   <script>
+    // Function to scroll to a specific section smoothly
+    function scrollToSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            section.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
     // Initialize Typed.js for dynamic text
     var typed = new Typed('#dynamic-text', {
         strings: ["الهندسة", "الطب", "اللغة"],
@@ -75,51 +82,42 @@
 
     let messageTyped;
 
-const resources = [
-  { name: "كتاب الفلسفة", url: "https://example.com/philosophy-book" },
-  { name: "كتاب اللغة", url: "https://example.com/language-book" }
-];
+    const resources = [
+      { name: "كتاب الفلسفة", url: "https://example.com/philosophy-book" },
+      { name: "كتاب اللغة", url: "https://example.com/language-book" }
+    ];
 
-function outputMessagesWithResources(messages) {
-  const combinedStrings = messages.map(message => {
-    const resourceLinks = resources.map(resource => 
-      `<a href="${resource.url}" target="_blank">${resource.name}</a>`
-    );
-    // Create a string with the word "المصادر" followed by the resources
-    const resourceString = `[:المصادر<br> ${resourceLinks.join(' , ')}`;
-    return `${message} <br> ${resourceString}]`;
-  });
+    function outputMessagesWithResources(messages) {
+      const combinedStrings = messages.map(message => {
+        const resourceLinks = resources.map(resource => 
+          `<a href="${resource.url}" target="_blank">${resource.name}</a>`
+        );
+        const resourceString = `[:المصادر<br> ${resourceLinks.join(' , ')}`;
+        return `${message} <br> ${resourceString}]`;
+      });
 
-  // If there's an existing Typed instance, destroy it
-  if (messageTyped) {
-    messageTyped.destroy();
-  }
+      if (messageTyped) {
+        messageTyped.destroy();
+      }
 
-  // Display messages with typing animation
-  messageTyped = new Typed('#message-display', {
-    strings: combinedStrings,
-    typeSpeed: 50,
-    showCursor: false,
-    onComplete: function() {
-      // Clear the input field after displaying
-      document.getElementById('learning-input').value = '';
+      messageTyped = new Typed('#message-display', {
+        strings: combinedStrings,
+        typeSpeed: 50,
+        showCursor: false,
+        onComplete: function() {
+          document.getElementById('learning-input').value = '';
+        }
+      });
     }
-  });
-}
 
-// Function to handle the send button click
-function sendMessage() {
-  const inputField = document.getElementById('learning-input');
-  const message = inputField.value.trim();
+    function sendMessage() {
+      const inputField = document.getElementById('learning-input');
+      const message = inputField.value.trim();
 
-  if (message) {
-    outputMessagesWithResources([message]);
-  }
-
-}
-</script>
-
-
-
+      if (message) {
+        outputMessagesWithResources([message]);
+      }
+    }
+  </script>
 </body>
 </html>
