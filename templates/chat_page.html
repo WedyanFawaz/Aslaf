@@ -73,17 +73,17 @@
                 event.preventDefault();
             });
             $(document).on("click", ".simplifyBtn", function () {
-    const responseId = $(this).data("response-id");
-    const originalResponse = $(`#response-${responseId}`).text();
+                const responseId = $(this).data("response-id");
+                const originalResponse = $(`#response-${responseId}`).text();
 
-    $.ajax({
-        type: "POST",
-        url: "/simplify",
-        data: { response: originalResponse }
-    }).done(function(simplifiedResponse) {
-        $(`#response-${responseId}`).text(simplifiedResponse);
-    });
-});
+                $.ajax({
+                    type: "POST",
+                    url: "/simplify",
+                    data: { response: originalResponse }
+                }).done(function (simplifiedResponse) {
+                    $(`#response-${responseId}`).text(simplifiedResponse);
+                });
+            });
         });
     </script>
 </body>
