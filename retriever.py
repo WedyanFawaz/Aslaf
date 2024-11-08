@@ -18,9 +18,3 @@ class Retriever():
         docs = retriever.invoke(query)
         context = self.format_docs(docs)
         return context
-
-
-if __name__ == "__main__":
-    ret = Retriever()
-    _, res = ret.get_context("be")
-    print(res)

@@ -4,7 +4,7 @@ from langchain_community.vectorstores import Chroma
 import os
 import shutil
 from langchain.embeddings import SentenceTransformerEmbeddings
-from langchain.text_splitter import NLTKTextSplitter
+import re
 
 # Constants
 CHROMA_PATH = "vectordb_ibnjenni"
@@ -19,25 +19,33 @@ def load_docs() -> list[Document]:
     docs = loader.load()
     return docs
 
-def split_docs(docs: list[Document]):
-    """
-    Takes documents and split them into chunks
-    """
-    splitter = NLTKTextSplitter(chunk_size=100, chunk_overlap=20)
 
-    chunks = []
+def split_docs_into_sentences(docs: list[Document]):
+    """
+    Takes documents and splits them into sentences based on full stops.
+    Each sentence is treated as a separate document, preserving original metadata.
+    """
+    split_docs = []
+
+
+    sentence_splitter_pattern = r'(?<=\.|\؟|\!|\؟)[\s]*'  # all full stops and question marks
+
     for doc in docs:
-        # Split each document into chunks using the NLTKTextSplitter
-        split_chunks = splitter.split_text(doc.page_content)
-
-        # Retain original doc metadata for each chunk
-        for chunk in split_chunks:
-            chunk.metadata = doc.metadata
+        doc_text = doc.page_content
         
-        # Append the chunks to the chunks list
-        chunks.extend(split_chunks)
-
-    return chunks
+        sentences = re.split(sentence_splitter_pattern, doc_text)
+        
+        for sentence in sentences:
+            sentence = sentence.strip()  # Remove leading/trailing spaces
+            
+            if sentence: 
+                new_doc = Document(
+                    page_content=sentence,
+                    metadata=doc.metadata
+                )
+                split_docs.append(new_doc)
+    
+    return split_docs
 
 
 def save_to_chroma(chunks: list[Document]):
@@ -51,7 +59,7 @@ def save_to_chroma(chunks: list[Document]):
 def generate_vector_db():
     """Generate the vector database from loaded documents."""
     docs = load_docs()
-    chunks = split_docs(docs)
+    chunks = split_docs_into_sentences(docs)
     save_to_chroma(chunks)
 
 # Run the script to generate the vector database
