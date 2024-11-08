@@ -3,6 +3,7 @@ from ibm_watsonx_ai import Credentials
 from ibm_watsonx_ai.foundation_models import Model
 from config import (IBM_API_KEY, IBM_PROJECT_ID)
 from prompt_template import  explain_tempalte, recs_tempalte
+from prompt_template import (fewshot_prompt_template, fewshot_examples)
 
 
 
@@ -31,7 +32,12 @@ class Generator:
         return model
 
 
-    def get_response(self, prompt:str) -> str: 
+    def get_response(self, query:str, context) -> str:
+        prompt = fewshot_prompt_template.format(
+        question = query,
+        context = context,
+        few_shot_examples = fewshot_examples
+    )
         return self.model.generate(prompt)['results'][0]['generated_text']
     
     def get_explanation(self, response:str) -> str:

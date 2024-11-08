@@ -30,16 +30,11 @@ def simplify_response():
 
 def get_chat_response(msg:str) -> str:
     context, resources = retriever.get_context(msg)
-    prompt = fewshot_prompt_template.format(
-        question = msg,
-        context = context,
-        few_shot_examples = fewshot_examples
-    )
     if resources:
         formatted_resources = "\n".join(resources.splitlines())
-        return generator.get_response(prompt) + f"\n\المصادر:\n{formatted_resources}"
+        return generator.get_response(msg, context) + f"\n\المصادر:\n{formatted_resources}"
 
-    return generator.get_response(prompt)
+    return generator.get_response(msg,context)
 
 @app.route("/resources", methods=["POST"])
 def get_from_user():

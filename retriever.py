@@ -19,11 +19,10 @@ class Retriever():
         docs_with_scores = self.vectordb.similarity_search_with_relevance_scores(query, k=3)
 
         filtered_docs = [
-            doc for doc, score in docs_with_scores if score >= 0.73
+            doc for doc, score in docs_with_scores if score >= 0.735
         ]
 
         context = self.format_docs(filtered_docs)
-        print(filtered_docs)
 
         return context
 
