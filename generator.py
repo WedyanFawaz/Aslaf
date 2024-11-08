@@ -2,7 +2,7 @@ from ibm_watsonx_ai import APIClient
 from ibm_watsonx_ai import Credentials
 from ibm_watsonx_ai.foundation_models import Model
 from config import (IBM_API_KEY, IBM_PROJECT_ID)
-from prompt_template import  explain_tempalte
+from prompt_template import  explain_tempalte, recs_tempalte
 
 
 
@@ -37,4 +37,9 @@ class Generator:
     def get_explanation(self, response:str) -> str:
         explaination =  explain_tempalte.format(response = response)
         print(explaination)
-        return self.model.generate( explaination)['results'][0]['generated_text']
+        return self.model.generate(explaination)['results'][0]['generated_text']
+    
+    
+    def get_recs(self, track:str) -> str:
+        recs = recs_tempalte(track = track)
+        return self.model.generate(recs)['results'][0]['generated_text']
