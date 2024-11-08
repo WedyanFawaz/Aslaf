@@ -39,7 +39,7 @@ class Generator:
         print(explaination)
         return self.model.generate(explaination)['results'][0]['generated_text']
     
-    
+
     def get_recs(self, track:str) -> str:
-        recs = recs_tempalte(track = track)
-        return self.model.generate(recs)['results'][0]['generated_text']
+        rec =  explain_tempalte.format(track = track)
+        return self.model.generate(rec)['results'][0]['generated_text']
