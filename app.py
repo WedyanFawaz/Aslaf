@@ -19,30 +19,29 @@ def chat_page():
 @app.route("/get", methods=["GET", "POST"])  # Route to handle chat responses
 def chat():
     msg = request.form["msg"]  # Get user input from the form
-    return get_chat_response(msg)
+    response = get_chat_response(msg)
+    return jsonify({'text': response})  # Return as JSON
 
 
 @app.route("/simplify", methods=["POST"])
 def simplify_response():
     original_response = request.form["response"]
     simplified_response = generator.get_explanation(original_response)
-    return jsonify(simplified_response)
+    return jsonify({'text': simplified_response})  # Return as JSON
 
 def get_chat_response(msg:str) -> str:
     context, resources = retriever.get_context(msg)
     if resources:
         formatted_resources = "\n".join(resources.splitlines())
-        return generator.get_response(msg, context) + f"\n\المصادر:\n{formatted_resources}"
+        return generator.get_response(msg, context) + f"\nالمصادر:\n{formatted_resources}"
 
     return generator.get_response(msg,context)
 
 @app.route("/resources", methods=["POST"])
 def get_from_user():
-    # Assuming 'generator.get_recs' takes some input and returns a string
-    data = request.form.get('data')  # Get data from the POST request
-    response = generator.get_recs(data)  # Generate the response based on input
-    return response  # Return the response directly as a string
-
+    msg = request.form["msg"]
+    response = generator.get_recs(msg)  # Generate the response
+    return jsonify({'text': response})  # Return as JSON
 
     
 

@@ -9,8 +9,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" rel="stylesheet">
-  <!-- Include Typed.js library -->
   <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
@@ -33,36 +33,36 @@
     </div>
     <section id="learning-section" class="learning-section">
       <h2>ماذا تريد ان تتعلم</h2>
-      <div class="input-container">
+      <form id="messageArea" class="input-container">
         <input type="text" id="learning-input" placeholder="اكتب هنا...">
-        <button id="send-button" onclick="sendMessage()">إرسال</button>
-      </div>
+        <button type="submit" id="send-button">إرسال</button>
+      </form>
       <div id="message-display" class="message-display"></div>
     </section>
-    <section id="scientists" class="scientists">
-      <div class="scholar first-scholar">
-        <img class="gray" src="{{ url_for('static', filename='Logo/sena.png') }}" alt="ابن سينا">
-        <h3>ابن سينا</h3>
-        <p>عالم في الطب والفلسفة</p>
-        <p class="hashtags">الفيزياء #الفلسفة #الطب#</p>
-        <p class="coming-soon">قريباً</p>
-      </div>
-      <div class="scholar second-scholar">
-        <img class="gray" src="{{ url_for('static', filename='Logo/ghaz.png') }}" alt="الغزالي">
-        <h3>الغزالي</h3>
-        <p>حجة الإسلام، أحد أهم الفلاسفة العرب</p>
-        <p class="hashtags">الفلسفة #علم الكلام #التربية والتعليم#</p>
-        <p class="coming-soon">قريباً</p>
-      </div>
-      <div class="scholar third-scholar">
-        <img src="{{ url_for('static', filename='Logo/gni.png') }}" alt="ابن جني">
-        <h3>ابن جني</h3>
-        <p>عالم لغوي بارع وفقية مبدع</p>
-        <p class="hashtags">اعراب #نحو #لغة_عربية#</p>
-        <button class="go-button" onclick="window.location.href='/chat_page'">اذهب</button>
-      </div>
-    </section>
-
+    <section>
+      <section id="scientists" class="scientists">
+        <div class="scholar first-scholar">
+          <img class="gray" src="{{ url_for('static', filename='Logo/sena.png') }}" alt="ابن سينا">
+          <h3>ابن سينا</h3>
+          <p>عالم في الطب والفلسفة</p>
+          <p class="hashtags">الفيزياء #الفلسفة #الطب#</p>
+          <p class="coming-soon">قريباً</p>
+        </div>
+        <div class="scholar second-scholar">
+          <img class="gray" src="{{ url_for('static', filename='Logo/ghaz.png') }}" alt="الغزالي">
+          <h3>الغزالي</h3>
+          <p>حجة الإسلام، أحد أهم الفلاسفة العرب</p>
+          <p class="hashtags">الفلسفة #علم الكلام #التربية والتعليم#</p>
+          <p class="coming-soon">قريباً</p>
+        </div>
+        <div class="scholar third-scholar">
+          <img src="{{ url_for('static', filename='Logo/gni.png') }}" alt="ابن جني">
+          <h3>ابن جني</h3>
+          <p>عالم لغوي بارع وفقية مبدع</p>
+          <p class="hashtags">اعراب #نحو #لغة_عربية#</p>
+          <button class="go-button" onclick="window.location.href='/chat_page'">اذهب</button>
+        </div>
+      </section>
   </main>
 
   <script>
@@ -82,55 +82,48 @@
       loop: true
     });
 
+    // Attach event listener for submit event on the form
+    $("#messageArea").on("submit", function (event) {
+      event.preventDefault(); // Prevents form from reloading the page
+      console.log("Form submitted"); // Corrected from print("r")
+      sendMessage();
+    });
+
+    // Function to send a message
     let messageTyped;
-
-    const resources = [
-      { name: "كتاب الفلسفة", url: "https://example.com/philosophy-book" },
-      { name: "كتاب اللغة", url: "https://example.com/language-book" }
-    ];
-
-    function outputMessagesWithResources(messages) {
-
+    function outputMessagesWithResources(message) {
       if (messageTyped) {
         messageTyped.destroy();
       }
-
-
-      $.ajax({
-    url: '/resources',
-    type: 'POST',
-    data: { 'data': message },
-    success: function (response) {
-        console.log(response);  // Log response to verify
-        document.getElementById('output').innerHTML = response;
-
-        // Initialize Typed after updating the output
-        new Typed('#message-display', {
-            strings: [response],  // Wrap response in an array
+      if (message) {
+        $.ajax({
+          url: '/resources',
+          type: 'POST',
+          data: { msg: message }
+        }).done(function (data) {
+          var formattedText = data.text.replace(/\n/g, '<br>');
+          messageTyped = new Typed('#message-display', {
+            strings: [formattedText],
             typeSpeed: 50,
             showCursor: false,
             onComplete: function () {
-                document.getElementById('learning-input').value = '';
+              document.getElementById('learning-input').value = '';
             }
+          });
+        }).fail(function (error) {
+          console.error('Ajax error:', error);
+          alert('Error sending message. Please try again.');
         });
-    },
-    error: function (error) {
-        console.log("Error:", error);  // Log error details
-    }
-});
-
-
+      }
     }
 
     function sendMessage() {
       const inputField = document.getElementById('learning-input');
       const message = inputField.value.trim();
-
       if (message) {
-        outputMessagesWithResources([message]);
+        outputMessagesWithResources(message);
       }
     }
-
 
   </script>
 </body>

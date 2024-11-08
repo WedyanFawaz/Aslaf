@@ -43,7 +43,7 @@
     </div>
 
     <script>
-        $(document).ready(function () {
+       $(document).ready(function () {
             let responseCount = 0;
 
             $("#messageArea").on("submit", function (event) {
@@ -64,8 +64,9 @@
                     type: "POST",
                     url: "/get"
                 }).done(function (data) {
+                    var formattedText = data.text.replace(/\n/g, '<br>');
                     responseCount++;
-                    const botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="{{ url_for("static", filename="Logo/gni.png") }}" class="rounded-circle user_img_msg"></div><div class="msg_cotainer" id="response-' + responseCount + '">' + data + '<span class="msg_time">' + str_time + '</span></div></div>';
+                    const botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="{{ url_for("static", filename="Logo/gni.png") }}" class="rounded-circle user_img_msg"></div><div class="msg_cotainer" id="response-' + responseCount + '">' + formattedText + '<span class="msg_time">' + str_time + '</span></div></div>';
                     const simplifyBtnHtml = '<div class="text-center mt-2"><button class="simplifyBtn" data-response-id="' + responseCount + '">بسطها</button></div>';
                     $("#messageFormeight").append($.parseHTML(botHtml + simplifyBtnHtml));
                 });
@@ -73,15 +74,27 @@
                 event.preventDefault();
             });
             $(document).on("click", ".simplifyBtn", function () {
+
+                const date = new Date();
+                const hour = date.getHours();
+                const minute = date.getMinutes();
+                const str_time = hour + ":" + minute;
+                const rawText = $("#text").val();
+                
                 const responseId = $(this).data("response-id");
-                const originalResponse = $(`#response-${responseId}`).text();
+                const originalResponse = $('#response-${responseId}').text();
 
                 $.ajax({
                     type: "POST",
                     url: "/simplify",
                     data: { response: originalResponse }
+                    
                 }).done(function (simplifiedResponse) {
-                    $(`#response-${responseId}`).text(simplifiedResponse);
+                    responseCount++
+                    var formattedText = simplifiedResponse.text.replace(/\n/g, '<br>');
+                    const botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="{{ url_for("static", filename="Logo/gni.png") }}" class="rounded-circle user_img_msg"></div><div class="msg_cotainer" id="response-' + responseCount + '">' + formattedText + '<span class="msg_time">' + str_time + '</span></div></div>';
+                    $("#messageFormeight").append($.parseHTML(botHtml));
+                    // $(#response-${responseId}).text(simplifiedResponse);
                 });
             });
         });
