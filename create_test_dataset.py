@@ -1,8 +1,7 @@
 from langchain_community.document_loaders import DirectoryLoader # read docs from dir
 from langchain.text_splitter import RecursiveCharacterTextSplitter # splitting text into chunks
-from langchain.schema import Document # to use document class such that each chunk is doc with metadeta and content
+from langchain.schema import Document # to use document class such that each chunk is doc with metadata and content
 from langchain_community.vectorstores import Chroma # chromadb to generate vector db
-
 
 from langchain.embeddings import SentenceTransformerEmbeddings # to embed text
 from langchain_openai import OpenAIEmbeddings #
@@ -10,36 +9,40 @@ import openai
 import os # to prompt the system
 import shutil # deleting and adding dirs
 
-# ibm watsonx dep
+# IBM WatsonX dependencies
 from ibm_watsonx_ai import APIClient
 from ibm_watsonx_ai import Credentials
 from ibm_watsonx_ai.foundation_models import Model
 
+import pandas as pd
 
 from datasets import Dataset # to create test dataset
 
+from retriever import Retriever
+from generator import Generator
 
-def format_docs(docs : list[Document]):
+
+def format_docs(docs: list[Document]):
     """
-    Taked a lsit of docs and extract page content.
+    Takes a list of docs and extracts page content.
     """
-    return "\n\n".join(doc.page_content for doc in docs) # turn docs into an easy to read formatted text
+    return "\n\n".join(doc.page_content for doc in docs)  # turn docs into easy-to-read formatted text
 
 def create_dataset(retriever, generator):
     questions = [
-    "ماذا علم الله لآدم في قوله سبحانه: {وَعَلَّمَ آدَمَ الْأَسْمَاءَ كُلَّهَا}؟",
-    "كيف نشأت اللغات المختلفة حسب النص؟",
-    "ما هو الإعراب؟",
-    "ما هي اللغة؟",
-    "كيف يتم الحكم على الكلمات عندما لا يوجد دليل أو نظير؟",
-    "ما هما الضربان الذين تُقسم إليهما مقاييس العربية؟",
-    "ما هي الأسباب المانعة من الصرف، وكيف تم تقسيمها؟",
-    "كيف تم التعامل مع النصب في الجمع والتثنية؟",
-    "كيف يرتبط القياس اللفظي بالمعنى؟",
-    "كيف يتم حذف الجملة في اللغة العربية؟",
-    "ماذا كان رأي أبو العباس في عدد حروف المعجم، ولماذا؟",
-    "كيف تعبر الألف في النص عن وجودها في الكلمات وما هو دلالة ذلك؟"
-]
+        "ماذا علم الله لآدم في قوله سبحانه: {وَعَلَّمَ آدَمَ الْأَسْمَاءَ كُلَّهَا}؟",
+        "كيف نشأت اللغات المختلفة حسب النص؟",
+        "ما هو الإعراب؟",
+        "ما هي اللغة؟",
+        "كيف يتم الحكم على الكلمات عندما لا يوجد دليل أو نظير؟",
+        "ما هما الضربان الذين تُقسم إليهما مقاييس العربية؟",
+        "ما هي الأسباب المانعة من الصرف، وكيف تم تقسيمها؟",
+        "كيف تم التعامل مع النصب في الجمع والتثنية؟",
+        "كيف يرتبط القياس اللفظي بالمعنى؟",
+        "كيف يتم حذف الجملة في اللغة العربية؟",
+        "ماذا كان رأي أبو العباس في عدد حروف المعجم، ولماذا؟",
+        "كيف تعبر الألف في النص عن وجودها في الكلمات وما هو دلالة ذلك؟"
+    ]
 
     ground_truths = [
         "علم آدم أسماء جميع المخلوقات بجميع اللغات: العربية والفارسية والسريانية والعبرية والرومية وغير ذلك من سائر اللغات.",
@@ -60,18 +63,34 @@ def create_dataset(retriever, generator):
 
     # Inference
     for query in questions:
-        context = format_docs(retriever.get_relevant_documents(query))
-        answer = generator.generate(query, context)['results'][0]['generated_text']
+        context = retriever.get_context(query)
+        answer = generator.get_response(query, context)
         answers.append(answer)
-        contexts.append([doc.page_content for doc in retriever.get_relevant_documents(query)])
+        contexts.append(context)
 
     # To dict
     data = {
         "question": questions,
         "contexts": contexts,
-        "ground_truth": ground_truths
+        "ground_truth": ground_truths,
+        "answers": answers
     }
 
     # Convert dict to dataset
     dataset = Dataset.from_dict(data)
+
+    # Convert dataset to a pandas DataFrame
+    df = pd.DataFrame(dataset)
+
+    # Save DataFrame to CSV file
+    csv_file_path = "dataset.csv"  # Specify your desired file path here
+    df.to_csv(csv_file_path, index=False, encoding='utf-8-sig')  # Save as CSV with UTF-8 encoding
+    print(f"Dataset saved to {csv_file_path}")
+
     return dataset
+
+
+if __name__ == "__main__":
+    ret = Retriever()
+    gen = Generator()
+    create_dataset(ret, gen)
