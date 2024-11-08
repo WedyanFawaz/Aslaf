@@ -5,6 +5,7 @@ import os
 import shutil
 from langchain.embeddings import SentenceTransformerEmbeddings
 import re
+from langchain.text_splitter import RecursiveCharacterTextSplitter # splitting text into chunks
 
 # Constants
 CHROMA_PATH = "vectordb_ibnjenni"
@@ -47,6 +48,32 @@ def split_docs_into_sentences(docs: list[Document]):
     
     return split_docs
 
+def split_fixed(docs: list[Document]):
+    """
+    Takes documents and split them into chunks
+    """
+    # define splitter to chunk docs
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size = 1000,
+        chunk_overlap = 0,
+        length_function = len,
+        add_start_index = True
+    )
+
+    chunks = []
+
+    for doc in docs:
+
+        if len(doc.page_content.split()) > 1000:
+            split_chunks = text_splitter.split_documents([doc]) # split each document into chunks
+
+            for chunk in split_chunks:
+                chunk.metadata = doc.metadata  # retain original doc metadata
+            chunks.extend(split_chunks)
+        else:
+            chunks.append(doc)
+
+    return chunks
 
 def save_to_chroma(chunks: list[Document]):
     """Save documents to Chroma vector database."""
@@ -59,7 +86,7 @@ def save_to_chroma(chunks: list[Document]):
 def generate_vector_db():
     """Generate the vector database from loaded documents."""
     docs = load_docs()
-    chunks = split_docs_into_sentences(docs)
+    chunks = split_fixed(docs)
     save_to_chroma(chunks)
 
 # Run the script to generate the vector database
