@@ -75,13 +75,27 @@ def split_fixed(docs: list[Document]):
 
     return chunks
 
-def save_to_chroma(chunks: list[Document]):
-    """Save documents to Chroma vector database."""
+# def save_to_chroma(chunks: list[Document]):
+#     """Save documents to Chroma vector database."""
+#     if os.path.exists(CHROMA_PATH):
+#         shutil.rmtree(CHROMA_PATH)  # Remove existing directory if it exists
+
+#     db = Chroma.from_documents(chunks, embeddings, persist_directory=CHROMA_PATH)
+#     db.persist()
+
+
+def save_to_chroma(docs: list[Document], batch_size: int = 200):
+    """Save documents to Chroma vector database in batches."""
     if os.path.exists(CHROMA_PATH):
         shutil.rmtree(CHROMA_PATH)  # Remove existing directory if it exists
 
-    db = Chroma.from_documents(chunks, embeddings, persist_directory=CHROMA_PATH)
-    db.persist()
+    # Batch the docs before inserting into the Chroma DB
+    batched_docs = [docs[i:i + batch_size] for i in range(0, len(docs), batch_size)]
+
+    for batch in batched_docs:
+        # Inserting embeddings directly into Chroma
+        db = Chroma.from_documents(batch, embeddings, persist_directory=CHROMA_PATH)
+        db.persist()
 
 def generate_vector_db():
     """Generate the vector database from loaded documents."""

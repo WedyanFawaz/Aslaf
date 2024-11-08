@@ -35,8 +35,11 @@ def get_chat_response(msg:str) -> str:
         context = context,
         few_shot_examples = fewshot_examples
     )
-    formatted_resources = "\n".join(resources.splitlines())
-    return generator.get_response(prompt) + f"\n\المصادر:\n{formatted_resources}"
+    if resources:
+        formatted_resources = "\n".join(resources.splitlines())
+        return generator.get_response(prompt) + f"\n\المصادر:\n{formatted_resources}"
+
+    return generator.get_response(prompt)
 
 @app.route("/resources", methods=["POST"])
 def get_from_user():

@@ -13,8 +13,17 @@ class Retriever():
         return (context, resources)
 
 
-    def get_context(self, query:str) -> str:
-        retriever = self.vectordb.as_retriever(search_kwargs={'k':2})
-        docs = retriever.invoke(query)
-        context = self.format_docs(docs)
+    def get_context(self, query: str) -> str:
+        retriever = self.vectordb.as_retriever(search_kwargs={'k': 3})
+
+        docs_with_scores = self.vectordb.similarity_search_with_relevance_scores(query, k=3)
+
+        filtered_docs = [
+            doc for doc, score in docs_with_scores if score >= 0.73
+        ]
+
+        context = self.format_docs(filtered_docs)
+        print(filtered_docs)
+
         return context
+

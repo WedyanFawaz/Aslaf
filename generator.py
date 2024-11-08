@@ -18,7 +18,7 @@ class Generator:
 
         parameters = {
 		    "decoding_method": "greedy",
-		    "max_new_tokens": 300,
+		    "max_new_tokens": 300, # 4096
 		    "repetition_penalty": 1,
                 	}
 
