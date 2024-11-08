@@ -41,5 +41,10 @@ class Generator:
     
 
     def get_recs(self, track:str) -> str:
-        rec =  explain_tempalte.format(track = track)
+        rec =  recs_tempalte.format(track = track)
         return self.model.generate(rec)['results'][0]['generated_text']
+    
+
+if __name__ == "__main__":
+    gen = Generator()
+    print(gen.get_recs("الطب"))

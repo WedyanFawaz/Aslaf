@@ -1,83 +1,85 @@
 <!DOCTYPE html>
 <html lang="ar">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تعلم على يد علماء العصر الذهبي</title>
-    <link rel="stylesheet" type="text/css" href="static/style1.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" rel="stylesheet">
-    <!-- Include Typed.js library -->
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تعلم على يد علماء العصر الذهبي</title>
+  <link rel="stylesheet" type="text/css" href="static/style1.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@100..900&display=swap" rel="stylesheet">
+  <!-- Include Typed.js library -->
+  <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
 </head>
+
 <body>
   <header class="header">
-      <nav>
-        <img src="{{ url_for('static', filename='Logo/Aslaf.png') }}" class="logo">
-      </nav>
-      <div class="hero">
-        <h1>تعلم  <span id="dynamic-text" class="highlight"></span><br> على يد علماء العصر الذهبي</h1>
-          <div class="buttons">
-            <button class="more-button" onclick="scrollToSection('scientists')">المزيد</button>
-            <button class="try-button" onclick="scrollToSection('scientists')">جرب الآن</button>
-          </div>
+    <nav>
+      <img src="{{ url_for('static', filename='Logo/Aslaf.png') }}" class="logo">
+    </nav>
+    <div class="hero">
+      <h1>تعلم <span id="dynamic-text" class="highlight"></span><br> على يد علماء العصر الذهبي</h1>
+      <div class="buttons">
+        <button class="more-button" onclick="scrollToSection('scientists')">المزيد</button>
+        <button class="try-button" onclick="scrollToSection('scientists')">جرب الآن</button>
       </div>
+    </div>
   </header>
 
   <main>
-      <div class="full-width-image">
-        <img src="{{ url_for('static', filename='Logo/arab.png') }}">
+    <div class="full-width-image">
+      <img src="{{ url_for('static', filename='Logo/arab.png') }}">
+    </div>
+    <section id="learning-section" class="learning-section">
+      <h2>ماذا تريد ان تتعلم</h2>
+      <div class="input-container">
+        <input type="text" id="learning-input" placeholder="اكتب هنا...">
+        <button id="send-button" onclick="sendMessage()">إرسال</button>
       </div>
-      <section id="learning-section" class="learning-section">
-        <h2>ماذا تريد ان تتعلم</h2>
-        <div class="input-container">
-          <input type="text" id="learning-input" placeholder="اكتب هنا...">
-          <button id="send-button" onclick="sendMessage()">إرسال</button>
-        </div>
-        <div id="message-display" class="message-display"></div>
-      </section>
-      <section id="scientists" class="scientists">
-        <div class="scholar first-scholar">
-            <img class="gray" src="{{ url_for('static', filename='Logo/sena.png') }}" alt="ابن سينا">
-            <h3>ابن سينا</h3>
-            <p>عالم في الطب والفلسفة</p>
-            <p class="hashtags">الفيزياء #الفلسفة #الطب#</p>
-            <p class="coming-soon">قريباً</p>
-        </div>
-        <div class="scholar second-scholar">
-            <img class="gray" src="{{ url_for('static', filename='Logo/ghaz.png') }}" alt="الغزالي">
-            <h3>الغزالي</h3>
-            <p>حجة الإسلام، أحد أهم الفلاسفة العرب</p>
-            <p class="hashtags">الفلسفة #علم الكلام #التربية والتعليم#</p>
-            <p class="coming-soon">قريباً</p>
-        </div>
-        <div class="scholar third-scholar">
-            <img src="{{ url_for('static', filename='Logo/gni.png') }}" alt="ابن جني">
-            <h3>ابن جني</h3>
-            <p>عالم لغوي بارع وفقية مبدع</p>
-            <p class="hashtags">اعراب #نحو #لغة_عربية#</p>
-            <button class="go-button" onclick="window.location.href='/chat_page'">اذهب</button>
-        </div>
+      <div id="message-display" class="message-display"></div>
     </section>
-    
+    <section id="scientists" class="scientists">
+      <div class="scholar first-scholar">
+        <img class="gray" src="{{ url_for('static', filename='Logo/sena.png') }}" alt="ابن سينا">
+        <h3>ابن سينا</h3>
+        <p>عالم في الطب والفلسفة</p>
+        <p class="hashtags">الفيزياء #الفلسفة #الطب#</p>
+        <p class="coming-soon">قريباً</p>
+      </div>
+      <div class="scholar second-scholar">
+        <img class="gray" src="{{ url_for('static', filename='Logo/ghaz.png') }}" alt="الغزالي">
+        <h3>الغزالي</h3>
+        <p>حجة الإسلام، أحد أهم الفلاسفة العرب</p>
+        <p class="hashtags">الفلسفة #علم الكلام #التربية والتعليم#</p>
+        <p class="coming-soon">قريباً</p>
+      </div>
+      <div class="scholar third-scholar">
+        <img src="{{ url_for('static', filename='Logo/gni.png') }}" alt="ابن جني">
+        <h3>ابن جني</h3>
+        <p>عالم لغوي بارع وفقية مبدع</p>
+        <p class="hashtags">اعراب #نحو #لغة_عربية#</p>
+        <button class="go-button" onclick="window.location.href='/chat_page'">اذهب</button>
+      </div>
+    </section>
+
   </main>
 
   <script>
     // Function to scroll to a specific section smoothly
     function scrollToSection(sectionId) {
-        const section = document.getElementById(sectionId);
-        if (section) {
-            section.scrollIntoView({ behavior: 'smooth' });
-        }
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
     }
 
     // Initialize Typed.js for dynamic text
     var typed = new Typed('#dynamic-text', {
-        strings: ["الهندسة", "الطب", "اللغة"],
-        typeSpeed: 150,
-        backSpeed: 100,
-        loop: true
+      strings: ["الهندسة", "الطب", "اللغة"],
+      typeSpeed: 150,
+      backSpeed: 100,
+      loop: true
     });
 
     let messageTyped;
@@ -88,26 +90,36 @@
     ];
 
     function outputMessagesWithResources(messages) {
-      const combinedStrings = messages.map(message => {
-        const resourceLinks = resources.map(resource => 
-          `<a href="${resource.url}" target="_blank">${resource.name}</a>`
-        );
-        const resourceString = `[:المصادر<br> ${resourceLinks.join(' , ')}`;
-        return `${message} <br> ${resourceString}]`;
-      });
 
       if (messageTyped) {
         messageTyped.destroy();
       }
 
-      messageTyped = new Typed('#message-display', {
-        strings: combinedStrings,
-        typeSpeed: 50,
-        showCursor: false,
-        onComplete: function() {
-          document.getElementById('learning-input').value = '';
-        }
-      });
+
+      $.ajax({
+    url: '/resources',
+    type: 'POST',
+    data: { 'data': message },
+    success: function (response) {
+        console.log(response);  // Log response to verify
+        document.getElementById('output').innerHTML = response;
+
+        // Initialize Typed after updating the output
+        new Typed('#message-display', {
+            strings: [response],  // Wrap response in an array
+            typeSpeed: 50,
+            showCursor: false,
+            onComplete: function () {
+                document.getElementById('learning-input').value = '';
+            }
+        });
+    },
+    error: function (error) {
+        console.log("Error:", error);  // Log error details
+    }
+});
+
+
     }
 
     function sendMessage() {
@@ -118,6 +130,9 @@
         outputMessagesWithResources([message]);
       }
     }
+
+
   </script>
 </body>
+
 </html>

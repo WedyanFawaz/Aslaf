@@ -38,6 +38,16 @@ def get_chat_response(msg:str) -> str:
     formatted_resources = "\n".join(resources.splitlines())
     return generator.get_response(prompt) + f"\n\المصادر:\n{formatted_resources}"
 
+@app.route("/resources", methods=["POST"])
+def get_from_user():
+    # Assuming 'generator.get_recs' takes some input and returns a string
+    data = request.form.get('data')  # Get data from the POST request
+    response = generator.get_recs(data)  # Generate the response based on input
+    return response  # Return the response directly as a string
+
+
+    
+
 
 
 
