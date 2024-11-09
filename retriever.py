@@ -10,7 +10,7 @@ class Retriever():
     def format_docs(self, docs: list[Document]) -> str:
         context = "\n\n".join(doc.page_content for doc, score in docs if score >= 0.71)
         resources = "\n\n".join(
-            doc.metadata['source'] for doc, score in docs if score > 0.71
+            doc.metadata['source'] for doc, score in docs if score > 0.73
         ).replace("data/", "").replace(".txt", "")
         return context, resources
 
