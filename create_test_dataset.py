@@ -63,10 +63,10 @@ def create_dataset(retriever, generator):
 
     # Inference
     for query in questions:
-        context = retriever.get_context(query)
+        context, resources = retriever.get_context(query)
         answer = generator.get_response(query, context)
         answers.append(answer)
-        contexts.append(context)
+        contexts.append(resources)
 
     # To dict
     data = {

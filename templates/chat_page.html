@@ -43,7 +43,7 @@
     </div>
 
     <script>
-       $(document).ready(function () {
+        $(document).ready(function () {
             let responseCount = 0;
 
             $("#messageArea").on("submit", function (event) {
@@ -73,16 +73,14 @@
 
                 event.preventDefault();
             });
-            $(document).on("click", ".simplifyBtn", function () {
-
-                const date = new Date();
+            $(document).on("click", ".simplifyBtn", function () {const date = new Date();
                 const hour = date.getHours();
                 const minute = date.getMinutes();
                 const str_time = hour + ":" + minute;
                 const rawText = $("#text").val();
                 
                 const responseId = $(this).data("response-id");
-                const originalResponse = $('#response-${responseId}').text();
+                const originalResponse = $(`#response-${responseId}`).text();
 
                 $.ajax({
                     type: "POST",
